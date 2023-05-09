@@ -39,7 +39,7 @@ while True :
     name = input('이름 : ')
     while True :
         birth = input('생년월일(6자리) : ')
-        if len(birth) == 0 :
+        if len(birth) == 6 :
             break
         else : 
             print('생년월일 입력값이 올바르지 않습니다.')
