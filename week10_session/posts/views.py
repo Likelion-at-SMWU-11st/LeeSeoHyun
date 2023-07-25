@@ -20,6 +20,7 @@ def post_list_view(request):
     }
     return render(request, 'posts/post_list.html', context)
 
+
 def post_detail_view(request, id):
     try:
         post = Post.objects.get(id=id)
