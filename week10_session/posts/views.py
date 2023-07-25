@@ -7,9 +7,7 @@ from .models import Post
 
 def index(request):
     post_list = Post.objects.all().order_by('-created_at') #post 모델에 있는 객체 전부 불러오기
-    context = {
-        'post_list' : post_list,
-    }
+    context = {'post_list' : post_list}
     return render(request, 'index.html', context)
 
 def post_list_view(request):
@@ -20,10 +18,10 @@ def post_list_view(request):
     }
     return render(request, 'posts/post_list.html', context)
 
-
 def post_detail_view(request, id):
     try:
         post = Post.objects.get(id=id)
+        
     except Post.DoesNotExist:
         return redirect('index')
     post = Post.objects.get(id=id)
