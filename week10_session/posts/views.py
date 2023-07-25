@@ -21,7 +21,7 @@ def post_list_view(request):
 def post_detail_view(request, id):
     try:
         post = Post.objects.get(id=id)
-        
+
     except Post.DoesNotExist:
         return redirect('index')
     post = Post.objects.get(id=id)
@@ -101,3 +101,4 @@ def function_view(request):
     elif request.method == 'POST':
         print(f'request.POST: {request.POST}')
     return render(request, 'view.html')
+    
