@@ -9,6 +9,7 @@ from posts.views import class_view
 
 
 urlpatterns = [
+    path('', index, name='index'),
     path('admin/', admin.site.urls),
     # Function Based View
     path('url/', url_view),
@@ -19,6 +20,7 @@ urlpatterns = [
 
     path('', index, name='index'),
     path('posts/', include('posts.urls', namespace='posts')),
+    path('accounts/', include('accounts.urls', namespace='accounts')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

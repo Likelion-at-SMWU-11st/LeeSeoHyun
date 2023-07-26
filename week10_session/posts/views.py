@@ -4,6 +4,8 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from .models import Post
+from .forms import PostBasedForm, PostCreatedform, PostDetailForm, PostUpdateForm
+
 
 def index(request):
     post_list = Post.objects.all().order_by('-created_at') #post 모델에 있는 객체 전부 불러오기
@@ -27,6 +29,7 @@ def post_detail_view(request, id):
     post = Post.objects.get(id=id)
     context = {
         'post' : post,
+        'form' : PostDetailForm(),
     }
     return render(request, 'posts/post_detail.html', context)
 
@@ -42,6 +45,25 @@ def post_create_view(request):
             content = content,
             writer = request.user
         )
+        return redirect('index')
+
+def post_create_form_view(request):
+    if request.method == "GET":
+        form = PostCreatedform()
+        context = {'form' : form}
+        return render(request, 'posts/post_form2.html', context)
+
+    else:
+        form = PostCreatedform(request.POST, request.FILES)
+
+        if form.is_valid():
+            Post.objects.create( #image, content 데이터를 담은 Post 객체 만들어서 저장
+                image = form.cleaned_data['image'],
+                content = form.cleaned_data['content'],
+                writer = request.user
+            )
+        else:
+            return redirect('post:post-create')
         return redirect('index')
 
 def post_update_view(request, id):
@@ -101,4 +123,3 @@ def function_view(request):
     elif request.method == 'POST':
         print(f'request.POST: {request.POST}')
     return render(request, 'view.html')
-    
