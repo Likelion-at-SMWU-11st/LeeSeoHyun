@@ -1,16 +1,48 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from rest_framework.viewsets import ModelViewSet
-from .serializers import PostModelSerializer
+from .serializers import PostModelSerializer, PostListSerializer, PostRetrieveSerializer
 from django.views.generic import ListView
 from .models import Post
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .forms import PostBasedForm, PostCreatedForm, PostDetailForm, PostUpdateForm
+from rest_framework import generics, status
+
+#게시글 목록 + 생성
+class PostListCreateView(generics.ListAPIView, generics.CreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        #self.perform_create(serializer)
+
+        #작성자
+        if request.user.is_authenticated: #허용된 인증자일 경우 생성자까지 포함하여 저장
+            serializer.save(writer=request.user)
+        else: #로그인이 되어있지 않으면 생성자 없이 그냥 저장
+            serializer.save()
+
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 class PostModelViewSet(ModelViewSet):
     queryset=Post.objects.all()
-    serializer_class=PostModelSerializer
+    serializer_class=PostListSerializer
+#게시글 상세 + 수정
+class PostRetrieveUpdateView(generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostListSerializer
+
+#게시글 수정
+#class PostUpdateView(generics.UpdateAPIView):
+#    queryset = Post.objects.all()
+#    serializer_class = PostListSerializer
 
 @api_view
 def calculator(request):
