@@ -1,15 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from rest_framework.viewsets import ModelViewSet
-from .serializers import PostModelSerializer, PostListSerializer, PostRetrieveSerializer
+from .serializers import PostModelSerializer, PostListSerializer, PostRetrieveSerializer, CommentListModelSerializer
 from django.views.generic import ListView
 from .models import Post
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from .forms import PostBasedForm, PostCreatedForm, PostDetailForm, PostUpdateForm
 from rest_framework import generics, status
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 
-#게시글 목록 + 생성
+#게시글 목록 + 생성 (생성받는 3개 동일하기 때문)
 class PostListCreateView(generics.ListAPIView, generics.CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
@@ -34,15 +35,35 @@ class PostListCreateView(generics.ListAPIView, generics.CreateAPIView):
 class PostModelViewSet(ModelViewSet):
     queryset=Post.objects.all()
     serializer_class=PostListSerializer
+
+    def get_permissions(self):
+        action = self.action
+        if action == 'list': # 게시판 누구나 볼 수 있도록 
+            permission_classes = [AllowAny]
+        elif action == "create": # 작성 및 상세 = 로그인 한 사람만 볼 수 있도록
+            permission_classes = [IsAuthenticated]
+        elif action == "retrieve":
+            permission_classes = [IsAuthenticated]
+        elif action == "update":
+            permission_classes = [IsAdminUser]
+        elif action == "partial_update":
+            permission_classes = [IsAdminUser]
+        elif action == "destroy":
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
+
+    @action(detail=True, methods=['get'])
+    def get_comment_all(self, request, pk = None):
+        post = self.get_object()
+        comment_all = post.comment_set.all()
+        serializer = CommentListModelSerializer(comment_all, many=True)
+        return Response(serializer.data)
+
 #게시글 상세 + 수정
 class PostRetrieveUpdateView(generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
 
-#게시글 수정
-#class PostUpdateView(generics.UpdateAPIView):
-#    queryset = Post.objects.all()
-#    serializer_class = PostListSerializer
 
 @api_view
 def calculator(request):
