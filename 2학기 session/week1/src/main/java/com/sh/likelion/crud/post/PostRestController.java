@@ -1,4 +1,5 @@
 package com.sh.likelion.crud.post;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,12 +15,9 @@ import java.util.List;
 public class PostRestController{
     private static final Logger logger = LoggerFactory.getLogger(PostRestController.class);
     private final List<PostDto> postList;
-
     public PostRestController(){
         this.postList = new ArrayList<>();
     }
-
-    //http://localhost;8080/post
 
     @PostMapping()
     public void createPost(@RequestBody PostDto postDto){
@@ -54,14 +52,13 @@ public class PostRestController{
         if(postDto.getWriter()!=null){
             targetPost.setWriter(postDto.getWriter());
         }
-        this.postList.set(id, targetPost);
+        this.postList.set(id,targetPost);
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePost(
-            @PathVariable("id") int id,
-            @RequestBody PostDto postDto
+            @PathVariable("id") int id
     ){
         this.postList.remove(id);
     }
