@@ -1,4 +1,4 @@
-package com.sh.likelion.crud.post;
+/*package com.sh.likelion.crud.post;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,3 +63,4 @@ public class PostRestController{
         this.postList.remove(id);
     }
 }
+*/

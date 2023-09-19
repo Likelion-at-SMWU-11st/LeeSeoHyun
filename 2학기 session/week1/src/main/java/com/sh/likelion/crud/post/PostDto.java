@@ -1,48 +1,25 @@
 package com.sh.likelion.crud.post;
 
-public class PostDto {
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+
+public class PostDto{
+    private int id;
     private String title;
     private String content;
     private String writer;
+    private int boardId;
 
-    private PostDto(){};
-
-    public PostDto(String title, String content, String writer){
+    public PostDto(int id, String title, String content, String writer, int boardId){
+        this.id = id;
         this.title = title;
         this.content = content;
         this.writer = writer;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getWriter() {
-        return writer;
-    }
-
-    public void setWriter(String writer) {
-        this.writer = writer;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    @Override
-    public String toString(){
-        return "PostDto{" +
-                "title="+title+'|'+
-                ", content="+content+'|'+
-                ", writer="+writer+'|'+
-                "}";
+        this.boardId = boardId;
     }
 }
