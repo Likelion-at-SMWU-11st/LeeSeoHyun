@@ -1,0 +1,140 @@
+spring:
+  profiles:
+    active: local
+
+logging:
+  level:
+    dev.aquashow.jap.handler : debug
+
+
+
+
+
+
+
+#logging:
+#  level:
+#    root: warn
+#    org.springframework: info
+#
+    #dev.aquashow: info
+
+
+
+custom:
+  property:
+    single: custom-property
+    comlist: comma, sparated,list,to,value
+    ncp:
+      id: api-id
+      key: api-key
+      url: https://ncp.com/
+
+
+#---
+#spring:
+#  config:
+#    activate:
+#      on-profile: local
+#  #  datasource:
+#  #    driver-class-name: com.mysql.cj.jdbc.Driver
+#  #    url: jdbc:mysql://127.0.0.1:3306/demo_jpa_schema
+#  #    username: demo-jpa
+#  #    password: Likelion1234!
+#  #
+#  #  jpa:
+#  #    hibernate:
+#  #      ddl-auto: none
+#  #    show-sql: false
+#  #    properties:
+#  #      hibernate:
+#  #        dialect: org.hibernate.dialect.MYSQL8Dialect
+#
+#
+#---
+#
+#spring:
+#  config:
+#    activate:
+#      on-profile: test
+#  datasource:
+#    hikari:
+#      driver-class-name: org.h2.Driver
+#      url: jdbc:h2:mem:testdb
+#      username: sa
+#      password: password
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.H2Dialect
+#
+#
+#
+
+#
+#---
+#
+#spring:
+#  config:
+#    activate:
+#      on-profile: docker
+#  datasource:
+#    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://172.17.0.1:3306/demo_jpa_schema
+#      username: demo-jpa
+#      password: Likelion1234!
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#    show-sql: false
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MYSQL8Dialect
+#
+#
+#
+#---
+#
+#spring:
+#  config:
+#    activate:
+#      on-profile: dev
+#  datasource:
+#    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://{도메인 아이피 주소}/demo_jpa_schema
+#      username: demo-jpa
+#      password: Likelion1234!
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#    show-sql: false
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MYSQL8Dialect
+#
+#
+#---
+#
+#spring:
+#  config:
+#    activate:
+#      on-profile: prod
+#  datasource:
+#    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      url: jdbc:mysql://aws-host.ap-north-2.com.rds:3306/demo_jpa_schema
+#      username: demo-jpa
+#      password: Likelion1234!
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#    show-sql: false
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MYSQL8Dialect
+
